@@ -22,6 +22,8 @@ var (
 	GetETagName          = xml.Name{Namespace, "getetag"}
 
 	CurrentUserPrincipalName = xml.Name{Namespace, "current-user-principal"}
+
+	CurrentUserPrivilegeSetName = xml.Name{Namespace, "current-user-privilege-set"}
 )
 
 type Status struct {
@@ -415,6 +417,30 @@ type CurrentUserPrincipal struct {
 	XMLName         xml.Name  `xml:"DAV: current-user-principal"`
 	Href            Href      `xml:"href,omitempty"`
 	Unauthenticated *struct{} `xml:"unauthenticated,omitempty"`
+}
+
+type CurrentUserPrivilegeSet struct {
+	XMLName   xml.Name    `xml:"DAV: current-user-privilege-set"`
+	Privilege []Privilege `xml:"privilege"`
+}
+
+type Privilege struct {
+	XMLName         xml.Name  `xml:"DAV: privilege"`
+	Read            *struct{} `xml:"DAV: read,omitempty"`
+	All             *struct{} `xml:"DAV: all,omitempty"`
+	Write           *struct{} `xml:"DAV: write,omitempty"`
+	WriteProperties *struct{} `xml:"DAV: write-properties,omitempty"`
+	WriteContent    *struct{} `xml:"DAV: write-content,omitempty"`
+}
+
+func NewAllPrivileges() []Privilege {
+	return []Privilege{
+		{Read: &struct{}{}},
+		{All: &struct{}{}},
+		{Write: &struct{}{}},
+		{WriteProperties: &struct{}{}},
+		{WriteContent: &struct{}{}},
+	}
 }
 
 // https://tools.ietf.org/html/rfc4918#section-14.19
