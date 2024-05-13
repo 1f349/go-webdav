@@ -514,6 +514,9 @@ func (b *backend) propFindAddressBook(ctx context.Context, propfind *internal.Pr
 			Size: ab.MaxResourceSize,
 		})
 	}
+	props[internal.CurrentUserPrivilegeSetName] = func(*internal.RawXMLValue) (interface{}, error) {
+		return &internal.CurrentUserPrivilegeSet{Privilege: internal.NewAllPrivileges()}, nil
+	}
 
 	return internal.NewPropFindResponse(ab.Path, propfind, props)
 }
