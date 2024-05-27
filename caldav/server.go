@@ -573,6 +573,9 @@ func (b *backend) propFindCalendar(ctx context.Context, propfind *internal.PropF
 			return &maxResourceSize{Size: cal.MaxResourceSize}, nil
 		}
 	}
+	props[internal.CurrentUserPrivilegeSetName] = func(*internal.RawXMLValue) (interface{}, error) {
+		return &internal.CurrentUserPrivilegeSet{Privilege: internal.NewAllPrivileges()}, nil
+	}
 
 	// TODO: CALDAV:calendar-timezone, CALDAV:supported-calendar-component-set, CALDAV:min-date-time, CALDAV:max-date-time, CALDAV:max-instances, CALDAV:max-attendees-per-instance
 
