@@ -125,7 +125,7 @@ func (h *Handler) handleOptions(w http.ResponseWriter, r *http.Request) error {
 
 	w.Header().Add("DAV", strings.Join(caps, ", "))
 	w.Header().Add("Allow", strings.Join(allow, ", "))
-	w.WriteHeader(http.StatusNoContent)
+	w.WriteHeader(http.StatusOK)
 	return nil
 }
 
