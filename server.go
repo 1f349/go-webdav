@@ -299,7 +299,7 @@ func ServePrincipal(w http.ResponseWriter, r *http.Request, options *ServePrinci
 		allow := []string{http.MethodOptions, "PROPFIND", "REPORT", "DELETE", "MKCOL"}
 		w.Header().Add("DAV", strings.Join(caps, ", "))
 		w.Header().Add("Allow", strings.Join(allow, ", "))
-		w.WriteHeader(http.StatusNoContent)
+		w.WriteHeader(http.StatusOK)
 	case "PROPFIND":
 		if err := servePrincipalPropfind(w, r, options); err != nil {
 			internal.ServeError(w, err)
