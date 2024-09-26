@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"encoding/base64"
 	"encoding/xml"
 	"errors"
 	"fmt"
@@ -353,7 +354,7 @@ type Time time.Time
 func (t *Time) UnmarshalText(b []byte) error {
 	tt, err := http.ParseTime(string(b))
 	if err != nil {
-		return err
+		return errors.Join(err, errors.New("time_data : "+base64.StdEncoding.EncodeToString(b)))
 	}
 	*t = Time(tt)
 	return nil
