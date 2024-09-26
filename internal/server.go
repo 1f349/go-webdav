@@ -187,9 +187,8 @@ func NewPropFindResponse(path string, propfind *PropFind, props map[xml.Name]Pro
 
 			code := http.StatusOK
 			if err != nil {
-				// TODO: don't throw away error message here
 				code = HTTPErrorFromError(err).Code
-				val = emptyVal
+				val = NewRawXMLElement(xmlName, []xml.Attr{{Name: xml.Name{Space: "ERR", Local: "Error"}, Value: err.Error()}}, nil)
 			}
 
 			if err := resp.EncodeProp(code, val); err != nil {
@@ -210,8 +209,8 @@ func NewPropFindResponse(path string, propfind *PropFind, props map[xml.Name]Pro
 			f, ok := props[xmlName]
 			if ok {
 				if v, err := f(&raw); err != nil {
-					// TODO: don't throw away error message here
 					code = HTTPErrorFromError(err).Code
+					val = NewRawXMLElement(xmlName, []xml.Attr{{Name: xml.Name{Space: "ERR", Local: "Error"}, Value: err.Error()}}, nil)
 				} else {
 					code = http.StatusOK
 					val = v
